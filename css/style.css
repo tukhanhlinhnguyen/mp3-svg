@@ -1,0 +1,115 @@
+body {
+  margin: 0;
+}
+#drop-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  height: 200px;
+  border: solid 3px #d3d3d3;
+  border-radius: 10px;
+}
+
+.vertical-center {
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+.vertical-center:before {
+  /* create a full-height inline block pseudo=element */
+  content: " ";
+  display: inline-block;
+  vertical-align: middle; /* vertical alignment of the inline element */
+  height: 100%;
+}
+
+.vertical-center > .container {
+  max-width: 100%;
+
+  display: inline-block;
+  vertical-align: middle; /* vertical alignment of the inline element */
+  /* reset the font property */
+  font: 16px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  width: 80% !important;
+}
+
+.option-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.color_1,
+.color_2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.color_1:after,
+.color_2:after {
+  display: inline-block;
+  content: "\00d7"; /* This will render the 'X' */
+}
+
+#dummy,
+wave {
+  height: 0;
+  width: 80%;
+  overflow: hidden;
+  z-index: -99999;
+}
+
+#reset-panel,
+#input_color_1,
+#palette_color_1,
+#input_color_2,
+#palette_color_2 {
+  display: none;
+}
+
+.pallete-div {
+  width: 110px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+input[type="color"] {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: none;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+svg {
+  overflow: visible;
+
+  transition: all 0.5s ease;
+}
+
+.svg-div {
+  width: 600px;
+}
