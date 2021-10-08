@@ -76,7 +76,8 @@ async function selectFiles(event) {
         container: '#dummy',
         progressColor: linGrad,
         reflection: true,
-        
+        height:416,
+        width:1899
       });
       wavesurfer.on('ready', () => {
         canvas.save();
