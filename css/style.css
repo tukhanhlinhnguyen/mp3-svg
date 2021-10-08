@@ -113,3 +113,8 @@ svg {
 .svg-div {
   width: 600px;
 }
+
+.checkboxSVG {
+  height: 15px;
+  width: 15px;
+}
