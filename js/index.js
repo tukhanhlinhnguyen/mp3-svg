@@ -62,7 +62,7 @@ async function selectFiles(event) {
 
   function audioToSvg(file) {
     return new Promise(resolve => {
-      let canvasSvg = new C2S(3344,1600);
+      let canvasSvg = new C2S('3344','1600');
       canvasSvg.style = {};
 
       HTMLCanvasElement.prototype.getContext = () => canvasSvg;
@@ -79,8 +79,8 @@ async function selectFiles(event) {
         container: '#dummy',
         progressColor: linGrad,
         reflection: true,
-        height:1600,
-        width:3344
+        devicePixelRatio:3,
+        height:3344
       });
       wavesurfer.on('ready', () => {
         canvasSvg.save();

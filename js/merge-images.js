@@ -73,32 +73,44 @@
 				canvas.width *= pixelRatio;
 				canvas.height *= pixelRatio;
 				// Draw images to canvas
-				images.forEach(image => {
-					console.log('image:', image)
-					if(image.src == "../img/canvas.png"){
-						console.log('image:', image)
-						ctx.filter = "brightness(110%)";
-						canvasW = image.x + image.width
-						canvasH = image.y + image.height
-					}else{
-						ctx.filter = "brightness(100%)";
-					}
-				// Now that its high res we need to compensate so our images can be drawn as normal, by scaling everything up by the pixelRatio.
-					ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-					ctx.globalAlpha = image.opacity ? image.opacity : 1;
-                    ctx.imageSmoothingEnabled = false;
-					return ctx.drawImage(image.img, getX(image, canvas.width), getY(image, canvas.height), image.width || image.img.width, image.height || image.img.height);
-				});
-				
+				// images.forEach(image => {
+				// 	console.log('image:', image)
+				// 	if(image.src == "../img/canvas.png"){
+				// 		console.log('image:', image)
+				// 		ctx.filter = "brightness(110%)";
+				// 		canvasW = image.x + image.width
+				// 		canvasH = image.y + image.height
+				// 	}else{
+				// 		ctx.filter = "brightness(100%)";
+				// 	}
+				// // Now that its high res we need to compensate so our images can be drawn as normal, by scaling everything up by the pixelRatio.
+				// ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+				// ctx.globalAlpha = image.opacity ? image.opacity : 1;
+				// ctx.imageSmoothingEnabled = false;
+				// return ctx.drawImage(image.img, getX(image, canvas.width), getY(image, canvas.height), image.width || image.img.width, image.height || image.img.height);
+				// });
 
-				ctx.font = "14px Arial";
+				let bgPhoto = images[0];
+				let texturePhoto = images[1];
+
+				ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+				ctx.globalAlpha = image.opacity ? image.opacity : 1;
+				ctx.imageSmoothingEnabled = false;
+				ctx.drawImage(bgPhoto.img, getX(bgPhoto, canvas.width), getY(bgPhoto, canvas.height), bgPhoto.width || bgPhoto.img.width, bgPhoto.height || bgPhoto.img.height);
+
+				var waveImg = document.getElementById('image');
+				ctx.drawImage(waveImg,300,290,1400,
+					100)
+
+				ctx.filter = "brightness(110%)";
+				canvasW = texturePhoto.x + texturePhoto.width
+				canvasH = texturePhoto.y + texturePhoto.height
+
+				ctx.font = "14px OpenSans";
 				var width = ctx.measureText("Hello World").width
 				console.log('width:', width)
-				ctx.fillText("Hello World", canvasW-width, canvasH);
-
-				var qwfqwf = document.getElementById('image');
-				ctx.drawImage(qwfqwf,  260, 243, 457, 181)
-				console.log('qwfqwf:', qwfqwf)
+				ctx.fillStyle = "black";
+				ctx.fillText("Hello World", canvasW-width-10, canvasH-10);
 
 				return canvas.toDataURL(options.format, options.quality);
 			}));

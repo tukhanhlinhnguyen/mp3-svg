@@ -61,14 +61,6 @@ body {
   content: "\00d7"; /* This will render the 'X' */
 }
 
-#dummy,
-wave {
-  height: 0;
-  width: 80%;
-  overflow: hidden;
-  z-index: -99999;
-}
-
 #reset-panel,
 #input_color_1,
 #palette_color_1,
@@ -108,10 +100,6 @@ svg {
   overflow: visible;
 
   transition: all 0.5s ease;
-}
-
-.svg-div {
-  width: 600px;
 }
 
 .checkboxSVG {
