@@ -8,17 +8,16 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
 
   <title>Audio Visualizer</title>
-  <script src="js/wavesurfer.js"></script>
-  <script src="js/canvas2svg.js"></script>
-  <script src="js/FileSaver.min.js"></script>
-  <script src="js/jszip.min.js"></script>
-  <script type="text/javascript"
-    src="js/index.js">
-  </script>
+  
+
+
 </head>
 <body>
   <div id="dummy"></div>
+  
+  <img id="img"></img>
   <a id="download" href="#" download="waveform.svg" hidden>Download</a>
+  <button type="button" class="btn btn-primary" onclick="merge()">Merge</button>
 
   <div class="jumbotron vertical-center">
     <div class="container" id="container">
@@ -79,5 +78,13 @@
     </div>
   </div>
 </div>
+<script src="js/merge-images.js"></script>
+  <script src="js/wavesurfer.js"></script>
+  <script src="js/canvas2svg.js"></script>
+  <script src="js/FileSaver.min.js"></script>
+  <script src="js/jszip.min.js"></script>
+<script type="text/javascript"
+src="js/index.js">
+</script>
 </body>
 </html>

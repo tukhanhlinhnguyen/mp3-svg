@@ -1,7 +1,8 @@
 let color_1= 'black';
 let color_2= null;
 let color_3= null;
-let array_color = ["black",null,null]
+let array_color = ["black",null,null];
+let array_svg = []
 
 async function dropHandler(event) {
 
@@ -61,9 +62,10 @@ async function selectFiles(event) {
 
   function audioToSvg(file) {
     return new Promise(resolve => {
-      const canvas = new C2S(1899,200);
-      canvas.style = {};
-      HTMLCanvasElement.prototype.getContext = () => canvas;
+      let canvasSvg = new C2S(3344,1600);
+      canvasSvg.style = {};
+
+      HTMLCanvasElement.prototype.getContext = () => canvasSvg;
       var linGrad = document.createElement('canvas').getContext('2d').createLinearGradient(0, 0, 1000, 128);
       
       
@@ -72,17 +74,20 @@ async function selectFiles(event) {
             linGrad.addColorStop(getGradientPartByIndex(index), array_color[index]); 
         }
       })
+
       const wavesurfer = WaveSurfer.create({
         container: '#dummy',
         progressColor: linGrad,
         reflection: true,
+        height:1600,
+        width:3344
       });
       wavesurfer.on('ready', () => {
-        canvas.save();
-        requestIdleCallback(() => resolve(canvas.getSerializedSvg(true)));
+        canvasSvg.save();
+        requestIdleCallback(() => resolve(canvasSvg.getSerializedSvg(true)));
       });
       wavesurfer.loadBlob(file);
-    });
+     });
   }
 
   function displaySvg(svg,index,name) {
@@ -92,6 +97,8 @@ async function selectFiles(event) {
     svgDiv.id = "image-"+index;
     svgDiv.className = "svg-div pb-5";
     svgDiv.innerHTML = svg;
+
+    array_svg.push(svg);
 
     //prepare sound title and checkbox
     let div = document.createElement('div');
@@ -212,4 +219,21 @@ async function selectFiles(event) {
   function getIndexFromId(str) {
     //get the int part from a string
     return str.replace(/\D/g, "");
+  }
+
+  function merge() {
+    //const Canvas = require('canvas');
+    //get the int part from a string
+    let src= array_svg[0]
+    //console.log('src:', src)
+    
+    mergeImages([ {src: 'img/2.png'},{src: 'img/TheGodfather.mp3.svg',x:300,y:240,width:800,
+    height:200,quality:0.99},{src: 'img/canvas.png',x:260,y:243,width:457,opacity: 0.1,
+    height:181,quality:0.99}],{width:1200,
+      height:1200,quality:0.99,format:'image/png'}).then(b64 => {
+      console.log('b64:', b64)
+      var a = document.createElement("a"); //Create <a>
+      document.getElementById('img').src=b64;
+    });
+  // data:image/png;base64,iVBORw0KGgoAA...
   }
