@@ -85,7 +85,7 @@
 				var waveImg = document.getElementById('image'+options.index);
 				console.log('waveImg:', waveImg)
 				//var waveImg = document.getElementById('image');
-				ctx.drawImage(waveImg,options.waveX,options.waveY,765,
+				ctx.drawImage(waveImg,options.waveX,options.waveY,381,
 					60)
 
 				ctx.filter = "brightness(110%)";

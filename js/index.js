@@ -79,7 +79,7 @@ async function selectFiles(event) {
         progressColor: linGrad,
         reflection: true,
         devicePixelRatio:3,
-        height:800,
+        height:400,
         fillParent:true
       });
       wavesurfer.on('ready', () => {
