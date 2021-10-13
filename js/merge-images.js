@@ -57,60 +57,60 @@
 		resolve(Promise.all(images)
 			.then(images => {
 
-				//set canvas dimention
-				let canvasH = 0;
-				let canvasW = 0;
-
 				// Set canvas dimensions
 				const getSize = dim => options[dim] || Math.max(...images.map(image => image.img[dim]));
 				canvas.width = getSize('width');
 				canvas.height = getSize('height');
 				var pixelRatio = 3;
-				console.log('pixelRatio:', pixelRatio)
+
 				// lets scale the canvas and change its CSS width/height to make it high res.
 				canvas.style.width = canvas.width +'px';
 				canvas.style.height = canvas.height +'px';
 				canvas.width *= pixelRatio;
 				canvas.height *= pixelRatio;
-				// Draw images to canvas
-				// images.forEach(image => {
-				// 	console.log('image:', image)
-				// 	if(image.src == "../img/canvas.png"){
-				// 		console.log('image:', image)
-				// 		ctx.filter = "brightness(110%)";
-				// 		canvasW = image.x + image.width
-				// 		canvasH = image.y + image.height
-				// 	}else{
-				// 		ctx.filter = "brightness(100%)";
-				// 	}
-				// // Now that its high res we need to compensate so our images can be drawn as normal, by scaling everything up by the pixelRatio.
-				// ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-				// ctx.globalAlpha = image.opacity ? image.opacity : 1;
-				// ctx.imageSmoothingEnabled = false;
-				// return ctx.drawImage(image.img, getX(image, canvas.width), getY(image, canvas.height), image.width || image.img.width, image.height || image.img.height);
-				// });
 
+				
+				//set frame dimention
+				let canvasH = 0;
+				let canvasW = 0;
+
+				//set element dimention
 				let bgPhoto = images[0];
 				let texturePhoto = images[1];
 
 				ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-				ctx.globalAlpha = image.opacity ? image.opacity : 1;
 				ctx.imageSmoothingEnabled = false;
 				ctx.drawImage(bgPhoto.img, getX(bgPhoto, canvas.width), getY(bgPhoto, canvas.height), bgPhoto.width || bgPhoto.img.width, bgPhoto.height || bgPhoto.img.height);
 
-				var waveImg = document.getElementById('image');
-				ctx.drawImage(waveImg,300,290,1400,
-					100)
+				var waveImg = document.getElementById('image'+options.index);
+				console.log('waveImg:', waveImg)
+				//var waveImg = document.getElementById('image');
+				ctx.drawImage(waveImg,options.waveX,options.waveY,765,
+					60)
 
 				ctx.filter = "brightness(110%)";
 				canvasW = texturePhoto.x + texturePhoto.width
 				canvasH = texturePhoto.y + texturePhoto.height
 
-				ctx.font = "14px OpenSans";
-				var width = ctx.measureText("Hello World").width
-				console.log('width:', width)
-				ctx.fillStyle = "black";
-				ctx.fillText("Hello World", canvasW-width-10, canvasH-10);
+				if(options.textColor=="black") {
+					ctx.filter = "brightness(110%)";
+					ctx.globalAlpha = 0.2
+				}else{
+					ctx.filter = "brightness(50%)";
+					ctx.globalAlpha = 0.1
+				}
+				ctx.drawImage(texturePhoto.img, getX(texturePhoto, canvas.width), getY(texturePhoto, canvas.height), texturePhoto.width || texturePhoto.img.width, texturePhoto.height || texturePhoto.img.height);
+
+				ctx.globalAlpha = 1
+				ctx.filter = "brightness(100%)";
+				ctx.font = "6px OpenSans";
+				ctx.fillStyle = options.textColor;
+
+				//remove the extension
+				let textToDraw = options.fileName.replace(/\.[^/.]+$/, "").toUpperCase()
+				let width = ctx.measureText(textToDraw).width
+
+				ctx.fillText(textToDraw, canvasW-width-36, canvasH-10);
 
 				return canvas.toDataURL(options.format, options.quality);
 			}));

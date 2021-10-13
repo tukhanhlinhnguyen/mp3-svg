@@ -61,6 +61,19 @@ body {
   content: "\00d7"; /* This will render the 'X' */
 }
 
+#dummy {
+  width: 800px !important;
+}
+
+#dummy,
+wave {
+  height: 0;
+  width: 800px;
+  overflow: hidden;
+  z-index: -99999;
+  display: none !important;
+}
+
 #reset-panel,
 #input_color_1,
 #palette_color_1,
@@ -98,11 +111,26 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 svg {
   overflow: visible;
-
   transition: all 0.5s ease;
 }
 
 .checkboxSVG {
   height: 15px;
   width: 15px;
+}
+
+.image_picker_image {
+  width: 300px;
+}
+
+.svg-img-holder {
+  display: none;
+}
+
+.final-img-div {
+  /* width: 50% !important; */
+}
+
+#image {
+  display: none;
 }

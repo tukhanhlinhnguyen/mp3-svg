@@ -24,7 +24,6 @@ async function dropHandler(event) {
         //add a brief time out otherwise the loop will freeze
         setTimeout(async function(){
           displaySvg(await audioToSvg(file),index,file.name);
-
         }, 100);
       }; 
       
@@ -62,7 +61,7 @@ async function selectFiles(event) {
 
   function audioToSvg(file) {
     return new Promise(resolve => {
-      let canvasSvg = new C2S('3344','1600');
+      let canvasSvg = new C2S('1600','800');
       canvasSvg.style = {};
 
       HTMLCanvasElement.prototype.getContext = () => canvasSvg;
@@ -80,7 +79,8 @@ async function selectFiles(event) {
         progressColor: linGrad,
         reflection: true,
         devicePixelRatio:3,
-        height:3344
+        height:800,
+        fillParent:true
       });
       wavesurfer.on('ready', () => {
         canvasSvg.save();
@@ -97,6 +97,7 @@ async function selectFiles(event) {
     svgDiv.id = "image-"+index;
     svgDiv.className = "svg-div pb-5";
     svgDiv.innerHTML = svg;
+    svgDiv.style.transform = "scale(0.5)"
 
     array_svg.push(svg);
 
@@ -110,6 +111,11 @@ async function selectFiles(event) {
     container.appendChild(div);
     container.appendChild(svgDiv);
 
+    setTimeout( function(){
+      var dummy = document.getElementById('dummy');
+      dummy.style.display ="none"
+      console.log('there')
+    }, 1000);
   }
 
   function updateColor(index) {
@@ -142,38 +148,6 @@ async function selectFiles(event) {
     array_color[index]=null
   }
 
-  function clear() {
-    //clean the user's interfacer
-    var resetPanel = document.getElementById('reset-panel');
-    resetPanel.style.display ="block"
-
-    var svgPanel = document.getElementById('svg-panel');
-    svgPanel.innerHTML=""
-
-    var optionPanel = document.getElementById('option-panel');
-    optionPanel.style.display ="none"
-
-    var dropPanel = document.getElementById('drop-panel');
-    dropPanel.style.display ="none"
-  }
-
-  function reset() {
-    //reset the view
-    window.location.reload()
-  }
-
-  function getGradientPartByIndex(index) {
-    //we now only have maximum 3 breakpoints for the gradient
-    switch(index){
-        case 0:
-            return 0.3
-        case 1:
-            return 0.6
-        case 2:
-            return 1
-    }
-  }
-
   function getCheckedBoxes(chkboxName) {
     var checkboxes = document.getElementsByName(chkboxName);
     var checkboxesChecked = [];
@@ -201,10 +175,13 @@ async function selectFiles(event) {
 
       //define file's name
       let fileName=document.getElementById('title'+index).innerHTML;
+      console.log('fileName:', fileName)
 
       //generate the blob from svg content
       const blob = new Blob([svg.innerHTML], {type: "image/svg"});
-
+      //remove the extension
+      fileName = fileName.replace(/\.[^/.]+$/, "")
+      console.log('fileName:', fileName)
       //add the file to the zip
       zip.file(fileName+".svg", blob, {binary: true});
       
@@ -212,28 +189,6 @@ async function selectFiles(event) {
     //download the zip file
     zip.generateAsync({type:"blob"})
     .then(function(content) {
-        saveAs(content, "sound-wave-svg.zip");
+        saveAs(content, "final-wave-svg.zip");
     });
-  }
-
-  function getIndexFromId(str) {
-    //get the int part from a string
-    return str.replace(/\D/g, "");
-  }
-
-  function merge() {
-    //const Canvas = require('canvas');
-    //get the int part from a string
-    let src= array_svg[0]
-    //console.log('src:', src)
-    
-    mergeImages([ {src: 'img/2.png'},{src: 'img/TheGodfather.mp3.svg',x:300,y:240,width:800,
-    height:200,quality:0.99},{src: 'img/canvas.png',x:260,y:243,width:457,opacity: 0.1,
-    height:181,quality:0.99}],{width:1200,
-      height:1200,quality:0.99,format:'image/png'}).then(b64 => {
-      console.log('b64:', b64)
-      var a = document.createElement("a"); //Create <a>
-      document.getElementById('img').src=b64;
-    });
-  // data:image/png;base64,iVBORw0KGgoAA...
   }
